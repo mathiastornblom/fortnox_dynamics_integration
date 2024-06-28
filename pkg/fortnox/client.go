@@ -12,6 +12,9 @@ import (
 var rateLimitMutex sync.Mutex
 var lastRequestTime time.Time
 
+// makeAPIRequest sends an HTTP request to the Fortnox API with the specified method, endpoint, and body.
+// It handles rate limiting, access token refreshing, and retries for HTTP 429 (Too Many Requests) responses.
+// The function returns the response body as a byte slice and an error if any occurred.
 func (c *FortnoxClient) makeAPIRequest(method, endpoint string, body []byte) ([]byte, error) {
 	rateLimitMutex.Lock()
 	defer rateLimitMutex.Unlock()

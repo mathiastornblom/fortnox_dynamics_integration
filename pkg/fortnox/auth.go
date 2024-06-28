@@ -1,3 +1,4 @@
+// Package fortnox provides functionality for authenticating with the Fortnox API.
 package fortnox
 
 import (
@@ -198,10 +199,8 @@ func (c *FortnoxClient) StartAuthorizationFlow() error {
 		}
 	}()
 
-	select {
-	case <-c.AuthDone:
-		fmt.Println("Authorization successful, signal authDone channel")
-	}
+	<-c.AuthDone
+	fmt.Println("Authorization successful, signal authDone channel")
 
 	// Create a context with a timeout to shutdown the server
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
